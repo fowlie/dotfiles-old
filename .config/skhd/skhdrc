@@ -1,0 +1,29 @@
+# open terminal, blazingly fast compared to iTerm/Hyper
+cmd + shift - return : /Applications/kitty.app/Contents/MacOS/kitty --single-instance -d ~
+
+# alternate display focus (d for [d]isplay)
+cmd - d : yabai -m display --focus recent
+
+# focus windows with cmd + vim-keys (colemak-dh)
+cmd - n : yabai -m window --focus west
+cmd - e : yabai -m window --focus south
+cmd - i : yabai -m window --focus north
+cmd - o : yabai -m window --focus east
+
+# move windows with cmd + shift + vim-keys (colemak-dh)
+cmd + shift - n : yabai -m window --swap west
+cmd + shift - e : yabai -m window --swap south
+cmd + shift - i : yabai -m window --swap north
+cmd + shift - o : yabai -m window --swap east
+
+# make window grow (vim-keys below homerow)
+cmd - h : yabai -m window --resize left:-50:0      # h
+cmd - 0x2B : yabai -m window --resize bottom:0:50  # ,
+cmd - 0x2F : yabai -m window --resize top:-50:0    # .
+cmd - 0x2C : yabai -m window --resize right:50:0   # /
+
+# make window shrink (vim-keys below homerow)
+cmd + shift - h : yabai -m window --resize right:-50:0     # h
+cmd + shift - 0x2B : yabai -m window --resize top:0:-50    # ,
+cmd + shift - 0x2F : yabai -m window --resize bottom:0:-50 # .
+cmd + shift - 0x2C : yabai -m window --resize left:50:0    # /
