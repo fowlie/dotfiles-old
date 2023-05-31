@@ -5,12 +5,6 @@
 	st = "status"
 	sw = "switch"
 
-[core]
-	pager = "/nix/store/xpg099qgwxpxf5hwpwzjgmqqmrwj0sjq-delta-0.11.2/bin/delta"
-
-[interactive]
-	diffFilter = "/nix/store/xpg099qgwxpxf5hwpwzjgmqqmrwj0sjq-delta-0.11.2/bin/delta --color-only"
-
 [merge]
 	tool = "nvimdiff"
 
@@ -26,8 +20,8 @@
 [user]
 	email = "mats.faugli@dnb.no"
 	name = "Mats Faugli"
-	signingKey = F4A21FAC2FD2E6D1215DA4F7441088863DFD2635
-[commit]
-	gpgsign = true
+	; signingKey = F4A21FAC2FD2E6D1215DA4F7441088863DFD2635
+; [commit]
+; 	gpgsign = true
 [init]
 	defaultBranch = main

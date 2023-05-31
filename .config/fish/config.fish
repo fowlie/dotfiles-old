@@ -1,7 +1,8 @@
 set -x PATH /usr/local/bin $HOME/.local/bin $PATH
 set -x GOPRIVATE "gitlab.tech.dnb.no/*"
 set -x PATH $HOME/go/bin $PATH
-set -x EDITOR /usr/local/bin/nvim
+set -x PATH /opt/homebrew/bin $PATH
+set -x EDITOR /opt/homebrew/bin/nvim
 
 if status is-interactive
     # Commands to run in interactive sessions can go here
