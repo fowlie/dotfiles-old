@@ -3,6 +3,7 @@ set -x GOPRIVATE "gitlab.tech.dnb.no/*"
 set -x PATH $HOME/go/bin $PATH
 set -x PATH /opt/homebrew/bin $PATH
 set -x EDITOR /opt/homebrew/bin/nvim
+set -x AWS_PROFILE dev
 
 if status is-interactive
     # Commands to run in interactive sessions can go here
