@@ -1,0 +1,12 @@
+set icons true
+# set previewer ~/.config/lf/pv.sh
+set previewer ~/go/bin/pistol
+map i $LESSOPEN='| ~/go/bin/pistol %s' less -R $f
+
+set promptfmt "\033[34;1m%d\033[0m\033[1m%f\033[0m"
+
+cmd newtab ${{
+  kitty @ launch --type=tab lf $PWD
+}}
+
+map <c-t> newtab
