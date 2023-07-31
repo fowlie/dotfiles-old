@@ -32,6 +32,7 @@ if status is-interactive
     abbr --add --global -- zj zellij
     abbr --add --global -- zjc zellij 'zellij --layout compact'
     abbr --add --global -- asp aws-switch-profile
+    abbr --add --global -- asl 'aws sso login'
 
     # Aliases
     alias ... 'cd ../..'

@@ -1,0 +1,29 @@
+[aws]
+format = '[$symbol$profile]($style) '
+style = 'italic yellow'
+symbol = '󰸏 '
+
+[golang]
+symbol = ' '
+disabled = true
+
+[git_branch]
+format = '[$symbol$branch(:$remote_branch)]($style) '	
+style = 'italic purple'
+
+[docker_context]
+disabled = true
+
+[python]
+disabled = true
+
+[package]
+disabled = true
+
+[time]
+disabled = false
+style = 'dimmed italic black'
+format = '[$time]($style) '
+
+[cmd_duration]
+disabled = true
