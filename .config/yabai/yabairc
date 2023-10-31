@@ -1,13 +1,18 @@
 yabai -m config window_topmost on         # floating windows are always on top
 yabai -m config mouse_follows_focus off   # mouse follows focus
+yabai -m config focus_follows_mouse autofocus
+yabai -m config window_shadow float
 
 yabai -m config layout bsp
-yabai -m config right_padding 20
-yabai -m config left_padding 20
-yabai -m config bottom_padding 20
-yabai -m config top_padding 20
-yabai -m config window_gap 20
+yabai -m config right_padding 10
+yabai -m config left_padding 10
+yabai -m config bottom_padding 10
+yabai -m config top_padding 10
+yabai -m config window_gap 10
 
 # float system preferences
 # debug: `yabai -m query --windows | jq '.[].app'`
 yabai -m rule --add app="^System Settings\$" manage=off
+yabai -m rule --add app="^Zscaler\$" manage=off
+yabai -m rule --add app="^Flameshot\$" manage=off
+yabai -m rule --add app="^Microsoft Teams classic\$" # is-topmost="false"

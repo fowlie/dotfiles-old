@@ -1,30 +1,47 @@
-# open terminal, blazingly fast compared to iTerm/Hyper
-cmd + shift - return : /Applications/kitty.app/Contents/MacOS/kitty --single-instance -d ~
-# cmd + shift - return : /Applications/Warp.app/Contents/MacOS/stable
+# Inspired by https://cbrgm.net/post/2021-05-5-setup-macos
+# TODO:create a cheat sheet for the config once its more stable
 
-# open web browser
-cmd + shift - w : "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+# [r]estart yabai service
+ctrl + alt + cmd - r : yabai --restart-service
+
+# open terminal, blazingly fast compared to iTerm/Hyper
+cmd - return : /Applications/WezTerm.app/Contents/MacOS/wezterm start
+
+# open web [b]rowser
+cmd + shift - b : "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+
+# yabai commands
+# change layout of desktop
+alt - b : yabai -m space --layout bsp
+alt - f : yabai -m space --layout float
+alt - s : yabai -m space --layout stack
 
 # alternate display focus (d for [d]isplay)
 cmd - d : yabai -m display --focus recent
 
+ctrl + cmd - 1  : yabai -m window --display 1; yabai -m display --focus 1
+ctrl + cmd - 2  : yabai -m window --display 2; yabai -m display --focus 2
+
 # make window the main window
-ctrl + alt - return : yabai -m window --swap largest
+ctrl + cmd - return : yabai -m window --swap largest
 
 # move focus
-alt - left  : yabai -m window --focus west
-alt - down  : yabai -m window --focus south
-alt - up    : yabai -m window --focus north
-alt - right : yabai -m window --focus east
+cmd - left  : yabai -m window --focus west
+cmd - down  : yabai -m window --focus south
+cmd - up    : yabai -m window --focus north
+cmd - right : yabai -m window --focus east
 
 # move windows
-ctrl + alt - left  : yabai -m window --swap west
-ctrl + alt - down  : yabai -m window --swap south
-ctrl + alt - up    : yabai -m window --swap north
-ctrl + alt - right : yabai -m window --swap east
+ctrl + cmd - left  : yabai -m window --swap west
+ctrl + cmd - down  : yabai -m window --swap south
+ctrl + cmd - up    : yabai -m window --swap north
+ctrl + cmd - right : yabai -m window --swap east
 
-# increase window size
-ctrl + alt + shift - left  : yabai -m window --resize left:-50:0
-ctrl + alt + shift - down  : yabai -m window --resize bottom:0:50
-ctrl + alt + shift - up    : yabai -m window --resize top:-50:0
-ctrl + alt + shift - right : yabai -m window --resize right:50:0
+# toggle window split
+ctrl + cmd - s : yabai -m window --toggle split
+
+# (alt) set insertion point in focused container using arrows
+cmd + alt - left  : yabai -m window --insert west
+cmd + alt - down  : yabai -m window --insert south
+cmd + alt - up    : yabai -m window --insert north
+cmd + alt - right : yabai -m window --insert east
