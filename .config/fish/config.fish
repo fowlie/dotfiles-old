@@ -1,5 +1,6 @@
 set -x PATH /usr/local/bin $HOME/.local/bin $PATH
 set -x GOPRIVATE "gitlab.tech.dnb.no/*"
+set -x DOCKER_HOST "unix://$HOME/.colima/default/docker.sock"
 set -x PATH $HOME/go/bin $PATH
 set -x PATH /opt/homebrew/bin $PATH
 set -x EDITOR /opt/homebrew/bin/nvim
@@ -13,8 +14,8 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 
     # Abbreviations
-    abbr --add --global -- aws-tail 'cache 3000 aws logs describe-log-groups | jq '\''.logGroups[].logGroupName'\'' -r | fzf | xargs aws logs tail --format short --since 1h'
-    abbr --add --global -- aws-tailf 'cache 3000 aws logs describe-log-groups | jq '\''.logGroups[].logGroupName'\'' -r | fzf | xargs aws logs tail --format short --follow --since 1h'
+    abbr --add --global -- aws-tail 'aws logs describe-log-groups | jq '\''.logGroups[].logGroupName'\'' -r | fzf | xargs aws logs tail --format short --since 1h'
+    abbr --add --global -- aws-tailf 'aws logs describe-log-groups | jq '\''.logGroups[].logGroupName'\'' -r | fzf | xargs aws logs tail --format short --follow --since 1h'
     abbr --add --global -- ciam-docker-login 'aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 364737385840.dkr.ecr.eu-west-1.amazonaws.com'
     abbr --add --global -- ciam-psql 'docker exec -it db-migrate_postgres_1 psql -U postgres ciam'
     abbr --add --global -- cc ciam-curl
