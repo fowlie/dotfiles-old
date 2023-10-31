@@ -1,0 +1,11 @@
+shell                   /opt/homebrew/bin/fish
+# font_family             Hack Nerd Font Mono Regular
+font_family            Hack Nerd Font Mono Regular
+font_size               14.0
+confirm_os_window_close 0
+tab_bar_style           powerline
+
+background              #000000
+background_opacity      0.5
+# background_blur       20
+
