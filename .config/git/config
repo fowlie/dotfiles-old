@@ -3,13 +3,13 @@
   ft = "fetch"
 	pl = "pull"
 	st = "status"
-	sw = "switch"
+  lg = "log --graph --abbrev-commit --decorate --format=format:'%C(blue)%h%C(reset) %C(dim italic)(%ar) %C(reset)%C(white)%s%C(reset) %C(italic red)%an%C(reset)%C(dim)%d%C(reset)' --branches --remotes --tags"
 
 [merge]
 	tool = "nvimdiff"
 
 [push]
-	default = "current"
+	default = current
 
 [url "ssh://git@git.tech-01.net/"]
 	insteadOf = "https://bitbucket.tech.dnb.no/scm/"
