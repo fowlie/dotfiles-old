@@ -1,5 +1,5 @@
 [aws]
-format = '[$symbol$profile]($style) '
+format = '[$symbol$profile-$region]($style) '
 style = 'italic yellow'
 symbol = '󰸏 '
 
@@ -22,7 +22,7 @@ disabled = true
 
 [time]
 disabled = false
-style = 'dimmed italic black'
+style = 'dimmed bold italic #008080'
 format = '[$time]($style) '
 
 [cmd_duration]
