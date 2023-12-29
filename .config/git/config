@@ -3,6 +3,7 @@
   ft = "fetch"
 	pl = "pull"
 	st = "status"
+  sw = "switch"
   lg = "log --graph --abbrev-commit --decorate --format=format:'%C(blue)%h%C(reset) %C(dim italic)(%ar) %C(reset)%C(white)%s%C(reset) %C(italic red)%an%C(reset)%C(dim)%d%C(reset)' --branches --remotes --tags"
 
 [merge]
@@ -11,17 +12,8 @@
 [push]
 	default = current
 
-[url "ssh://git@git.tech-01.net/"]
-	insteadOf = "https://bitbucket.tech.dnb.no/scm/"
-[url "ssh://git@gitlab.tech.dnb.no:2222/"]
-  insteadOf = "https://gitlab.tech.dnb.no/"
-  insteadOf = "git://gitlab.tech.dnb.no/"
-
 [user]
-	email = "mats.faugli@dnb.no"
+	email = "mats.faugli@gmail.com"
 	name = "Mats Faugli"
-	; signingKey = F4A21FAC2FD2E6D1215DA4F7441088863DFD2635
-; [commit]
-; 	gpgsign = true
 [init]
 	defaultBranch = main

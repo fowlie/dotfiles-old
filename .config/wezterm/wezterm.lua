@@ -10,81 +10,185 @@ if wezterm.config_builder then
 	config = wezterm.config_builder()
 end
 
--- This is where you actually apply your config choices
+-- config.color_scheme = "GitHub Dark"
+-- config.color_scheme = "XCode Dusk (base16)"
+config.color_scheme = "Tokyo Night Storm"
 
--- For example, changing the color scheme:
-config.color_scheme = "GitHub Dark"
+-- config.window_background_opacity = 0.90
+config.font = wezterm.font("Monaspace Neon", { weight = "Light" })
 
-config.enable_tab_bar = false
-config.use_fancy_tab_bar = false
-config.use_ime = true
-
--- The filled in variant of the < symbol
-local SOLID_LEFT_ARROW = wezterm.nerdfonts.pl_right_hard_divider
-
--- The filled in variant of the > symbol
-local SOLID_RIGHT_ARROW = wezterm.nerdfonts.pl_left_hard_divider
-
--- This function returns the suggested title for a tab.
--- It prefers the title that was set via `tab:set_title()`
--- or `wezterm cli set-tab-title`, but falls back to the
--- title of the active pane in that tab.
-function tab_title(tab_info)
-	local title = tab_info.tab_title
-	-- if the tab title is explicitly set, take that
-	if title and #title > 0 then
-		return title
-	end
-	-- Otherwise, use the title from the active pane in that tab
-	return tab_info.active_pane.title
-end
-
-wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-	local edge_background = "#0b0022"
-	local background = "#1b1032"
-	local foreground = "#808080"
-
-	if tab.is_active then
-		background = "#2b2042"
-		foreground = "#c0c0c0"
-	elseif hover then
-		background = "#3b3052"
-		foreground = "#909090"
-	end
-
-	local edge_foreground = background
-
-	local title = tab_title(tab)
-
-	-- ensure that the titles fit in the available space,
-	-- and that we have room for the edges.
-	title = wezterm.truncate_right(title, max_width - 2)
-
-	return {
-		{ Background = { Color = edge_background } },
-		{ Foreground = { Color = edge_foreground } },
-		{ Text = SOLID_LEFT_ARROW },
-		{ Background = { Color = background } },
-		{ Foreground = { Color = foreground } },
-		{ Text = title },
-		{ Background = { Color = edge_background } },
-		{ Foreground = { Color = edge_foreground } },
-		{ Text = SOLID_RIGHT_ARROW },
-	}
-end)
-
--- See https://wezfurlong.org/wezterm/config/lua/window-events/format-window-title.html
-wezterm.on("format-window-title", function(tab, pane, tabs, panes, config)
-	return "🖥️ WezTerm"
-end)
-
--- Set transparency to 80%
-config.window_background_opacity = 0.85
-config.font = wezterm.font("Victor Mono", { weight = "Regular" })
+-- Use a different font for italic text
+-- Makes comments in code look hand written
+config.font_rules = { { italic = true, font = wezterm.font("Monaspace Radon") } }
 config.font_size = 14.0
 
 -- Spawn a fish shell in login mode
 config.default_prog = { "/opt/homebrew/bin/fish", "-l" }
+
+-- Set the window title
+-- See https://wezfurlong.org/wezterm/config/lua/window-events/format-window-title.html
+-- wezterm.on("format-window-title", function()
+-- 	return "wezterm"
+-- end)
+
+------------------------------
+-- EXPERIMENTAL STUFF BELOW --
+------------------------------
+
+config.window_decorations = "RESIZE"
+config.window_close_confirmation = "AlwaysPrompt"
+config.scrollback_lines = 3000
+config.default_workspace = "main"
+
+-- Dim inactive panes
+config.inactive_pane_hsb = {
+	-- saturation = 0.14,
+	-- brightness = 0.5,
+}
+
+local act = wezterm.action
+
+-- Keys
+config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
+config.keys = {
+	-- Send C-a when pressing C-a twice
+	{ key = "a", mods = "LEADER|CTRL", action = act.SendKey({ key = "a", mods = "CTRL" }) },
+	{ key = "c", mods = "LEADER", action = act.ActivateCopyMode },
+	{ key = "phys:Space", mods = "LEADER", action = act.ActivateCommandPalette },
+
+	-- Pane keybindings
+	{ key = "s", mods = "LEADER", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
+	{ key = "v", mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+	{ key = "LeftArrow", mods = "LEADER", action = act.ActivatePaneDirection("Left") },
+	{ key = "DownArrow", mods = "LEADER", action = act.ActivatePaneDirection("Down") },
+	{ key = "UpArrow", mods = "LEADER", action = act.ActivatePaneDirection("Up") },
+	{ key = "RightArrow", mods = "LEADER", action = act.ActivatePaneDirection("Right") },
+	{ key = "q", mods = "LEADER", action = act.CloseCurrentPane({ confirm = true }) },
+	{ key = "z", mods = "LEADER", action = act.TogglePaneZoomState },
+	{ key = "o", mods = "LEADER", action = act.RotatePanes("Clockwise") },
+	-- We can make separate keybindings for resizing panes
+	-- But Wezterm offers custom "mode" in the name of "KeyTable"
+	{
+		key = "r",
+		mods = "LEADER",
+		action = act.ActivateKeyTable({ name = "resize_pane", one_shot = false }),
+	},
+
+	-- Tab keybindings
+	{ key = "t", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
+	{ key = "[", mods = "LEADER", action = act.ActivateTabRelative(-1) },
+	{ key = "]", mods = "LEADER", action = act.ActivateTabRelative(1) },
+	{ key = "n", mods = "LEADER", action = act.ShowTabNavigator },
+	{
+		key = "e",
+		mods = "LEADER",
+		action = act.PromptInputLine({
+			description = wezterm.format({
+				{ Attribute = { Intensity = "Bold" } },
+				{ Foreground = { AnsiColor = "Fuchsia" } },
+				{ Text = "Renaming Tab Title...:" },
+			}),
+			action = wezterm.action_callback(function(window, pane, line)
+				if line then
+					window:active_tab():set_title(line)
+				end
+			end),
+		}),
+	},
+	-- Key table for moving tabs around
+	{ key = "m", mods = "LEADER", action = act.ActivateKeyTable({ name = "move_tab", one_shot = false }) },
+	-- Or shortcuts to move tab w/o move_tab table. SHIFT is for when caps lock is on
+	{ key = "{", mods = "LEADER|SHIFT", action = act.MoveTabRelative(-1) },
+	{ key = "}", mods = "LEADER|SHIFT", action = act.MoveTabRelative(1) },
+
+	-- Lastly, workspace
+	{ key = "w", mods = "LEADER", action = act.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" }) },
+}
+-- I can use the tab navigator (LDR t), but I also want to quickly navigate tabs with index
+for i = 1, 9 do
+	table.insert(config.keys, {
+		key = tostring(i),
+		mods = "LEADER",
+		action = act.ActivateTab(i - 1),
+	})
+end
+
+config.key_tables = {
+	resize_pane = {
+		{ key = "h", action = act.AdjustPaneSize({ "Left", 1 }) },
+		{ key = "j", action = act.AdjustPaneSize({ "Down", 1 }) },
+		{ key = "k", action = act.AdjustPaneSize({ "Up", 1 }) },
+		{ key = "l", action = act.AdjustPaneSize({ "Right", 1 }) },
+		{ key = "Escape", action = "PopKeyTable" },
+		{ key = "Enter", action = "PopKeyTable" },
+	},
+	move_tab = {
+		{ key = "h", action = act.MoveTabRelative(-1) },
+		{ key = "j", action = act.MoveTabRelative(-1) },
+		{ key = "k", action = act.MoveTabRelative(1) },
+		{ key = "l", action = act.MoveTabRelative(1) },
+		{ key = "Escape", action = "PopKeyTable" },
+		{ key = "Enter", action = "PopKeyTable" },
+	},
+}
+
+-- Tab bar
+-- I don't like the look of "fancy" tab bar
+config.use_fancy_tab_bar = false
+config.status_update_interval = 1000
+config.tab_bar_at_bottom = false
+wezterm.on("update-status", function(window, pane)
+	-- Workspace name
+	local stat = window:active_workspace()
+	local stat_color = "#f7768e"
+	-- It's a little silly to have workspace name all the time
+	-- Utilize this to display LDR or current key table name
+	if window:active_key_table() then
+		stat = window:active_key_table()
+		stat_color = "#7dcfff"
+	end
+	if window:leader_is_active() then
+		stat = "LDR"
+		stat_color = "#bb9af7"
+	end
+
+	-- Current working directory
+	local basename = function(s)
+		-- Nothing a little regex can't fix
+		return string.gsub(s, "(.*[/\\])(.*)", "%2")
+	end
+	-- CWD and CMD could be nil (e.g. viewing log using Ctrl-Alt-l). Not a big deal, but check in case
+	local cwd = pane:get_current_working_dir()
+	cwd = cwd and basename(cwd) or ""
+	-- Current command
+	local cmd = pane:get_foreground_process_name()
+	cmd = cmd and basename(cmd) or ""
+
+	-- Time
+	local time = wezterm.strftime("%H:%M")
+
+	-- Left status (left of the tab line)
+	window:set_left_status(wezterm.format({
+		{ Foreground = { Color = stat_color } },
+		{ Text = "  " },
+		{ Text = wezterm.nerdfonts.oct_table .. "  " .. stat },
+		{ Text = " |" },
+	}))
+
+	-- Right status
+	window:set_right_status(wezterm.format({
+		-- Wezterm has a built-in nerd fonts
+		-- https://wezfurlong.org/wezterm/config/lua/wezterm/nerdfonts.html
+		{ Text = wezterm.nerdfonts.md_folder .. "  " .. cwd },
+		{ Text = " | " },
+		{ Foreground = { Color = "#e0af68" } },
+		{ Text = wezterm.nerdfonts.fa_code .. "  " .. cmd },
+		"ResetAttributes",
+		{ Text = " | " },
+		{ Text = wezterm.nerdfonts.md_clock .. "  " .. time },
+		{ Text = "  " },
+	}))
+end)
 
 -- and finally, return the configuration to wezterm
 return config

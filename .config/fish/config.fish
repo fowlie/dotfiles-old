@@ -1,5 +1,4 @@
 set -x PATH /usr/local/bin $HOME/.local/bin $PATH
-set -x GOPRIVATE "gitlab.tech.dnb.no/*"
 set -x DOCKER_HOST "unix://$HOME/.colima/default/docker.sock"
 set -x PATH $HOME/go/bin $PATH
 set -x PATH /opt/homebrew/bin $PATH
@@ -15,9 +14,6 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 
     # Abbreviations
-    abbr --add --global -- ciam-docker-login 'aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 364737385840.dkr.ecr.eu-west-1.amazonaws.com'
-    abbr --add --global -- ciam-psql 'docker exec -it db-migrate_postgres_1 psql -U postgres ciam'
-    abbr --add --global -- cc ciam-curl
     abbr --add --global -- copy 'xclip -o -selection clipboard'
     abbr --add --global -- d docker
     abbr --add --global -- dc docker-compose
@@ -34,6 +30,7 @@ if status is-interactive
     # AWS abbreviations
     abbr --add --global -- aws-tail 'aws logs describe-log-groups | jq '\''.logGroups[].logGroupName'\'' -r | fzf | xargs aws logs tail --format short --since 1h'
     abbr --add --global -- aws-tailf 'aws logs describe-log-groups | jq '\''.logGroups[].logGroupName'\'' -r | fzf | xargs aws logs tail --format short --follow --since 1h'
+    abbr --add --global -- aws-lambda-arn 'aws lambda list-functions | jq -r '.Functions[].FunctionArn' | fzf'
     abbr --add --global -- ap aws-switch-profile
     abbr --add --global -- ar aws-switch-region
     abbr --add --global -- al 'aws sso login'
@@ -45,6 +42,7 @@ if status is-interactive
     alias aws-switch-region 'set -x AWS_REGION (echo -e "eu-north-1\neu-west-1" | fzf --header "AWS Regions" --height 6 --reverse --bind one:accept)'
     alias ls 'exa --icons --oneline --group-directories-first'
     alias ll 'exa --all --icons --long --group-directories-first --time-style long-iso'
+    alias cheatsheet 'bat ~/.config/skhd/skhdrc'
 
     # https://news.ycombinator.com/item?id=11071754
     alias config '/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
@@ -58,3 +56,5 @@ if status is-interactive
     # Unleash the starship
     starship init fish | source
 end
+
+[ -f ~/.inshellisense/key-bindings.fish ] && source ~/.inshellisense/key-bindings.fish

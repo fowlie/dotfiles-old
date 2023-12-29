@@ -1,11 +1,12 @@
 [aws]
+disabled = false
 format = '[$symbol$profile-$region]($style) '
 style = 'italic yellow'
 symbol = '󰸏 '
 
 [golang]
 symbol = ' '
-disabled = true
+disabled = false
 
 [git_branch]
 format = '[$symbol$branch(:$remote_branch)]($style) '	
@@ -21,7 +22,7 @@ disabled = true
 disabled = true
 
 [time]
-disabled = false
+disabled = true
 style = 'dimmed bold italic #008080'
 format = '[$time]($style) '
 

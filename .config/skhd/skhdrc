@@ -1,11 +1,10 @@
 # Inspired by https://cbrgm.net/post/2021-05-5-setup-macos
-# TODO:create a cheat sheet for the config once its more stable
 
 # [r]estart yabai service
 ctrl + alt + cmd - r : yabai --restart-service
 
 # open terminal, blazingly fast compared to iTerm/Hyper
-cmd - return : /Applications/WezTerm.app/Contents/MacOS/wezterm start
+cmd - return : /Applications/Rio.app/Contents/MacOS/rio
 
 # open web [b]rowser
 cmd + shift - b : "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
